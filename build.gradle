@@ -1,0 +1,47 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.2.0'
+    }
+}
+
+apply plugin: 'com.android.application'
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+android {
+    namespace 'com.predictor.aviator.real'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.predictor.aviator.real"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "2.6.4"
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs = ['sources']
+            res.srcDirs = ['resources/res']
+            manifest.srcFile 'AndroidManifest.xml'
+        }
+    }
+    
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+}
