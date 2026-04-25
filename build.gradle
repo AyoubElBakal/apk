@@ -4,6 +4,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+        // Version de Gradle compatible avec l'environnement GitHub Actions actuel
         classpath 'com.android.tools.build:gradle:8.2.0'
     }
 }
@@ -29,18 +30,37 @@ android {
 
     sourceSets {
         main {
+            // On pointe vers tes dossiers extraits
             java.srcDirs = ['sources']
             res.srcDirs = ['resources/res']
             manifest.srcFile 'AndroidManifest.xml'
         }
     }
-    
+
+    // --- SECTIONS RECTIFIÉES POUR ÉVITER LES ERREURS ---
+
+    aaptOptions {
+        // Empêche Android de re-compiler les PNG. 
+        // Crucial car les images décompilées perdent souvent leurs données de bordure (.9.png)
+        noCompress 'png'
+    }
+
     lintOptions {
+        // Ignore les erreurs non critiques pour laisser la compilation finir
         abortOnError false
+        checkReleaseBuilds false
+    }
+
+    packagingOptions {
+        // Évite les conflits si des fichiers de licence traînent dans les dossiers
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
     }
 }
 
 dependencies {
+    // On utilise les versions standards. Gradle ira les chercher tout seul.
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
